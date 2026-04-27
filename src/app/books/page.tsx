@@ -79,7 +79,7 @@ export default function BooksPage() {
                     </p>
                     {book.free ? (
                       <Link
-                        href="/books/1"
+                        href={`/books/${book.id}`}
                         className="inline-block px-6 py-2.5 rounded-lg bg-flame-600 text-white text-sm font-medium hover:bg-flame-500 transition-all duration-300"
                       >
                         Читать бесплатно

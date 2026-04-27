@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { books, characters } from "@/lib/data";
 
@@ -97,6 +98,38 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* World collage */}
+      <section className="px-4 -mt-8 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative w-full rounded-2xl overflow-hidden border border-bunker-700/50"
+          >
+            <Image
+              src="/world/banner.png"
+              alt="Мир Праха и Пламени"
+              width={1200}
+              height={675}
+              className="w-full h-auto"
+              sizes="(max-width: 1200px) 100vw, 1200px"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-bunker-950 via-transparent to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
+              <p className="font-[family-name:var(--font-display)] text-2xl sm:text-3xl text-ash-100">
+                Пустошь. Бункеры. Мутации. Люди.
+              </p>
+              <p className="text-ash-400 mt-2 text-sm sm:text-base max-w-xl">
+                Мир, рождённый из пепла, где каждый выбор определяет будущее
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* About */}
       <section className="py-24 px-4">
         <div className="max-w-6xl mx-auto">
@@ -184,7 +217,7 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: i * 0.05 }}
               >
                 <Link
-                  href={book.free ? "/books/1" : "/books"}
+                  href={book.free ? `/books/${book.id}` : "/books"}
                   className="block glass rounded-2xl p-6 sm:p-8 hover:border-flame-500/20 transition-all duration-500 group"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
@@ -252,23 +285,35 @@ export default function Home() {
               >
                 <Link
                   href="/characters"
-                  className="block glass rounded-2xl p-8 h-full hover:border-flame-500/20 transition-all duration-500 group"
+                  className="block glass rounded-2xl overflow-hidden h-full hover:border-flame-500/20 transition-all duration-500 group"
                 >
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-flame-600/20 to-flame-800/20 border border-flame-600/20 flex items-center justify-center mb-6 group-hover:border-flame-500/40 transition-colors">
-                    <span className="font-[family-name:var(--font-display)] text-xl text-flame-500">
-                      {char.name[0]}
-                    </span>
+                  <div className="relative w-full aspect-[3/4] overflow-hidden">
+                    {char.image ? (
+                      <Image
+                        src={char.image}
+                        alt={char.name}
+                        fill
+                        className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-flame-600/20 to-flame-800/20 flex items-center justify-center">
+                        <span className="font-[family-name:var(--font-display)] text-6xl text-flame-500/40">
+                          {char.name[0]}
+                        </span>
+                      </div>
+                    )}
+                    <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bunker-950 via-bunker-950/80 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-5">
+                      <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-100 group-hover:text-flame-400 transition-colors">
+                        {char.name}
+                      </h3>
+                      <p className="text-sm text-flame-500/70 mb-2">{char.role}</p>
+                      <p className="text-sm italic text-ash-500">
+                        &laquo;{char.quote}&raquo;
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-200 mb-1">
-                    {char.name}
-                  </h3>
-                  <p className="text-sm text-flame-500/60 mb-4">{char.role}</p>
-                  <p className="text-sm text-ash-500 leading-relaxed mb-6 line-clamp-3">
-                    {char.description}
-                  </p>
-                  <p className="text-sm italic text-ash-600">
-                    &laquo;{char.quote}&raquo;
-                  </p>
                 </Link>
               </motion.div>
             ))}

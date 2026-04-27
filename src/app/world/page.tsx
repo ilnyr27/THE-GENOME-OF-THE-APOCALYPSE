@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { worldSections } from "@/lib/data";
 
@@ -53,19 +54,31 @@ export default function WorldPage() {
                     activeSection === section.id ? null : section.id
                   )
                 }
-                className={`w-full text-left glass rounded-2xl p-8 transition-all duration-500 group ${
+                className={`w-full text-left glass rounded-2xl overflow-hidden transition-all duration-500 group ${
                   activeSection === section.id
-                    ? "border-flame-500/30 bg-bunker-900/80"
+                    ? "border-flame-500/30 bg-bunker-900/80 ring-1 ring-flame-500/20"
                     : "hover:border-flame-500/15"
                 }`}
               >
-                <div className="text-3xl mb-4">{section.icon}</div>
-                <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-200 mb-3 group-hover:text-flame-400 transition-colors">
-                  {section.title}
-                </h3>
-                <p className="text-sm text-ash-500 leading-relaxed">
-                  {section.description}
-                </p>
+                {section.image && (
+                  <div className="relative w-full aspect-[16/10] overflow-hidden">
+                    <Image
+                      src={section.image}
+                      alt={section.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                  </div>
+                )}
+                <div className="p-6">
+                  <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-200 mb-2 group-hover:text-flame-400 transition-colors">
+                    {section.title}
+                  </h3>
+                  <p className="text-sm text-ash-500 leading-relaxed">
+                    {section.description}
+                  </p>
+                </div>
               </button>
             </motion.div>
           ))}

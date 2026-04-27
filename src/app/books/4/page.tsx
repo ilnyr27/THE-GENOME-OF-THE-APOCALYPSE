@@ -3,15 +3,15 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
-import { book1Chapters } from "@/lib/data";
+import { book4Chapters } from "@/lib/data";
 import { ReadingTracker } from "@/components/ReadingTracker";
 import { LiveReaders } from "@/components/LiveReaders";
 
-export default function BookReaderPage() {
+export default function Book4ReaderPage() {
   const [currentChapter, setCurrentChapter] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const chapter = book1Chapters[currentChapter];
+  const chapter = book4Chapters[currentChapter];
 
   return (
     <div className="pt-16 min-h-screen">
@@ -29,14 +29,14 @@ export default function BookReaderPage() {
               </svg>
             </button>
             <div>
-              <p className="text-xs text-ash-600">Книга 1</p>
-              <p className="text-sm text-ash-300">Код Выживания</p>
+              <p className="text-xs text-ash-600">Книга 4</p>
+              <p className="text-sm text-ash-300">Наследники Пустоши</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <LiveReaders bookId={1} chapterId={chapter.id} />
+            <LiveReaders bookId={4} chapterId={chapter.id} />
             <p className="text-xs text-ash-600">
-              Глава {currentChapter + 1} из {book1Chapters.length}
+              Глава {currentChapter + 1} из {book4Chapters.length}
             </p>
           </div>
         </div>
@@ -44,7 +44,7 @@ export default function BookReaderPage() {
         <div className="h-0.5 bg-bunker-900">
           <motion.div
             className="h-full bg-flame-600"
-            animate={{ width: `${((currentChapter + 1) / book1Chapters.length) * 100}%` }}
+            animate={{ width: `${((currentChapter + 1) / book4Chapters.length) * 100}%` }}
             transition={{ duration: 0.3 }}
           />
         </div>
@@ -62,7 +62,7 @@ export default function BookReaderPage() {
             >
               <div className="p-4 space-y-1">
                 <p className="text-xs text-ash-600 uppercase tracking-wider mb-3">Оглавление</p>
-                {book1Chapters.map((ch, i) => (
+                {book4Chapters.map((ch, i) => (
                   <button
                     key={ch.id}
                     onClick={() => { setCurrentChapter(i); setSidebarOpen(false); }}
@@ -82,9 +82,9 @@ export default function BookReaderPage() {
 
         {/* Desktop sidebar */}
         <div className="hidden md:block w-64 shrink-0 pt-28">
-          <div className="fixed w-64 p-4 space-y-1">
+          <div className="fixed w-64 p-4 space-y-1 max-h-[calc(100vh-7rem)] overflow-y-auto">
             <p className="text-xs text-ash-600 uppercase tracking-wider mb-3">Оглавление</p>
-            {book1Chapters.map((ch, i) => (
+            {book4Chapters.map((ch, i) => (
               <button
                 key={ch.id}
                 onClick={() => setCurrentChapter(i)}
@@ -129,7 +129,7 @@ export default function BookReaderPage() {
               </motion.article>
             </AnimatePresence>
 
-            <ReadingTracker bookId={1} chapterId={chapter.id} />
+            <ReadingTracker bookId={4} chapterId={chapter.id} />
 
             {/* Navigation */}
             <div className="flex items-center justify-between mt-16 pt-8 border-t border-bunker-800">
@@ -141,7 +141,7 @@ export default function BookReaderPage() {
                 &larr; Назад
               </button>
 
-              {currentChapter < book1Chapters.length - 1 ? (
+              {currentChapter < book4Chapters.length - 1 ? (
                 <button
                   onClick={() => setCurrentChapter(currentChapter + 1)}
                   className="px-5 py-2.5 rounded-lg bg-flame-600 text-white text-sm hover:bg-flame-500 transition-all"
@@ -150,7 +150,7 @@ export default function BookReaderPage() {
                 </button>
               ) : (
                 <div className="text-center">
-                  <p className="text-sm text-ash-500 mb-3">Продолжение — скоро</p>
+                  <p className="text-sm text-ash-500 mb-3">Продолжение -- скоро</p>
                   <Link
                     href="/books"
                     className="px-5 py-2.5 rounded-lg border border-flame-600/30 text-flame-400 text-sm hover:bg-flame-600/10 transition-all"

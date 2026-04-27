@@ -14,17 +14,9 @@ export default function Home() {
   return (
     <div className="relative">
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <Image
-          src="/world/banner.png"
-          alt=""
-          fill
-          className="object-cover object-center opacity-30"
-          sizes="100vw"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-bunker-950/80 via-bunker-950/70 to-bunker-950" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,122,17,0.08)_0%,_transparent_70%)]" />
+      <section className="relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-24">
+        <div className="absolute inset-0 bg-bunker-950" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,122,17,0.06)_0%,_transparent_70%)]" />
 
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {[...Array(6)].map((_, i) => (
@@ -43,7 +35,7 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-4 text-center pt-24">
+        <div className="relative z-10 max-w-6xl mx-auto px-4">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -52,23 +44,41 @@ export default function Home() {
             <motion.p
               variants={fadeUp}
               transition={{ duration: 0.8 }}
-              className="text-flame-500/80 uppercase tracking-[0.3em] text-sm mb-6"
+              className="text-flame-500/80 uppercase tracking-[0.3em] text-sm mb-6 text-center"
             >
               Постапокалиптическая сага
             </motion.p>
             <motion.h1
               variants={fadeUp}
               transition={{ duration: 0.8 }}
-              className="font-[family-name:var(--font-display)] text-5xl sm:text-7xl lg:text-8xl text-ash-100 text-glow leading-[1.1] mb-8"
+              className="font-[family-name:var(--font-display)] text-5xl sm:text-7xl lg:text-8xl text-ash-100 text-glow leading-[1.1] mb-10 text-center"
             >
               Геном
               <br />
               <span className="text-flame-500">Апокалипсиса</span>
             </motion.h1>
+
+            {/* Banner */}
+            <motion.div
+              variants={fadeUp}
+              transition={{ duration: 0.8 }}
+              className="relative w-full rounded-2xl overflow-hidden border border-bunker-700/50 mb-10"
+            >
+              <Image
+                src="/world/banner.png"
+                alt="Мир Генома Апокалипсиса"
+                width={1200}
+                height={400}
+                className="w-full h-auto"
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                priority
+              />
+            </motion.div>
+
             <motion.p
               variants={fadeUp}
               transition={{ duration: 0.8 }}
-              className="text-lg sm:text-xl text-ash-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+              className="text-lg sm:text-xl text-ash-400 max-w-2xl mx-auto mb-10 leading-relaxed text-center"
             >
               Важно не кем ты стал, а каким человеком ты был на пути.
               <br />
@@ -81,29 +91,19 @@ export default function Home() {
             >
               <Link
                 href="/books/1"
-                className="px-8 py-4 rounded-xl bg-flame-600 text-white font-semibold hover:bg-flame-500 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,122,17,0.3)]"
+                className="px-8 py-4 rounded-xl bg-flame-600 text-white font-semibold hover:bg-flame-500 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,122,17,0.3)] text-center"
               >
                 Читать первую книгу бесплатно
               </Link>
               <Link
                 href="/world"
-                className="px-8 py-4 rounded-xl border border-ash-700 text-ash-300 hover:border-flame-600/50 hover:text-flame-400 transition-all duration-300"
+                className="px-8 py-4 rounded-xl border border-ash-700 text-ash-300 hover:border-flame-600/50 hover:text-flame-400 transition-all duration-300 text-center"
               >
                 Исследовать мир
               </Link>
             </motion.div>
           </motion.div>
         </div>
-
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <div className="w-5 h-8 rounded-full border border-ash-700 flex items-start justify-center pt-1.5">
-            <div className="w-1 h-2 rounded-full bg-ash-500" />
-          </div>
-        </motion.div>
       </section>
 
       {/* About */}

@@ -15,7 +15,15 @@ export default function Home() {
     <div className="relative">
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-bunker-950 via-bunker-950/95 to-bunker-950" />
+        <Image
+          src="/world/banner.png"
+          alt=""
+          fill
+          className="object-cover object-center opacity-30"
+          sizes="100vw"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-bunker-950/80 via-bunker-950/70 to-bunker-950" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,122,17,0.08)_0%,_transparent_70%)]" />
 
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -96,38 +104,6 @@ export default function Home() {
             <div className="w-1 h-2 rounded-full bg-ash-500" />
           </div>
         </motion.div>
-      </section>
-
-      {/* World collage */}
-      <section className="px-4 -mt-8 relative z-10">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative w-full rounded-2xl overflow-hidden border border-bunker-700/50"
-          >
-            <Image
-              src="/world/banner.png"
-              alt="Мир Праха и Пламени"
-              width={1200}
-              height={675}
-              className="w-full h-auto"
-              sizes="(max-width: 1200px) 100vw, 1200px"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-bunker-950 via-transparent to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
-              <p className="font-[family-name:var(--font-display)] text-2xl sm:text-3xl text-ash-100">
-                Пустошь. Бункеры. Мутации. Люди.
-              </p>
-              <p className="text-ash-400 mt-2 text-sm sm:text-base max-w-xl">
-                Мир, рождённый из пепла, где каждый выбор определяет будущее
-              </p>
-            </div>
-          </motion.div>
-        </div>
       </section>
 
       {/* About */}

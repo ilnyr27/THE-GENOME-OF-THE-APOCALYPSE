@@ -38,6 +38,63 @@ export default function WorldPage() {
           </motion.p>
         </motion.div>
 
+        <AnimatePresence>
+          {activeSection && (() => {
+            const active = worldSections.find((s) => s.id === activeSection);
+            if (!active) return null;
+            return (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
+                className="mb-8"
+              >
+                <div className="glass rounded-2xl overflow-hidden">
+                  <div className="grid md:grid-cols-[1fr_1fr]">
+                    {active.image && (
+                      <div className="relative aspect-[16/10] md:aspect-auto md:min-h-[320px]">
+                        <Image
+                          src={active.image}
+                          alt={active.title}
+                          fill
+                          className="object-cover object-left"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          priority
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-bunker-950/60 hidden md:block" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-bunker-950/80 to-transparent md:hidden" />
+                      </div>
+                    )}
+                    <div className="p-8 sm:p-10">
+                      <h2 className="font-[family-name:var(--font-display)] text-3xl text-ash-100 mb-4">
+                        {active.title}
+                      </h2>
+                      <p className="text-ash-400 leading-relaxed mb-6">
+                        {active.description}
+                      </p>
+                      <ul className="space-y-3">
+                        {active.details.map((detail, i) => (
+                          <motion.li
+                            key={i}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: i * 0.08 }}
+                            className="flex items-start gap-3 text-ash-400"
+                          >
+                            <span className="text-flame-500/60 mt-1.5">&#x2022;</span>
+                            <span className="leading-relaxed">{detail}</span>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })()}
+        </AnimatePresence>
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {worldSections.map((section, i) => (
             <motion.div
@@ -66,7 +123,7 @@ export default function WorldPage() {
                       src={section.image}
                       alt={section.title}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="object-cover object-left group-hover:scale-105 transition-transform duration-700"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
@@ -75,7 +132,7 @@ export default function WorldPage() {
                   <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-200 mb-2 group-hover:text-flame-400 transition-colors">
                     {section.title}
                   </h3>
-                  <p className="text-sm text-ash-500 leading-relaxed">
+                  <p className="text-sm text-ash-500 leading-relaxed line-clamp-2">
                     {section.description}
                   </p>
                 </div>
@@ -83,40 +140,6 @@ export default function WorldPage() {
             </motion.div>
           ))}
         </div>
-
-        <AnimatePresence>
-          {activeSection && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.4 }}
-              className="mt-8 overflow-hidden"
-            >
-              <div className="glass rounded-2xl p-8">
-                <h3 className="font-[family-name:var(--font-display)] text-2xl text-ash-200 mb-6">
-                  {worldSections.find((s) => s.id === activeSection)?.title}
-                </h3>
-                <ul className="space-y-3">
-                  {worldSections
-                    .find((s) => s.id === activeSection)
-                    ?.details.map((detail, i) => (
-                      <motion.li
-                        key={i}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.08 }}
-                        className="flex items-start gap-3 text-ash-400"
-                      >
-                        <span className="text-flame-500/60 mt-1.5">&#x2022;</span>
-                        <span className="leading-relaxed">{detail}</span>
-                      </motion.li>
-                    ))}
-                </ul>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* Timeline */}
         <motion.div

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { characters } from "@/lib/data";
@@ -12,7 +12,18 @@ const fadeUp = {
 
 export default function CharactersPage() {
   const [activeChar, setActiveChar] = useState<string | null>(null);
+  const detailRef = useRef<HTMLDivElement>(null);
   const active = characters.find((c) => c.id === activeChar);
+
+  const selectChar = (id: string) => {
+    const isClosing = activeChar === id;
+    setActiveChar(isClosing ? null : id);
+    if (!isClosing) {
+      setTimeout(() => {
+        detailRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  };
 
   return (
     <div className="pt-24 pb-16 px-4">
@@ -38,6 +49,7 @@ export default function CharactersPage() {
           </motion.p>
         </motion.div>
 
+        <div ref={detailRef} />
         <AnimatePresence>
           {active && (
             <motion.div
@@ -55,7 +67,7 @@ export default function CharactersPage() {
                       src={active.image}
                       alt={active.fullName}
                       fill
-                      className="object-cover object-top"
+                      className="object-cover object-[center_15%]"
                       sizes="320px"
                       priority
                     />
@@ -123,9 +135,7 @@ export default function CharactersPage() {
               viewport={{ once: true }}
               variants={fadeUp}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              onClick={() =>
-                setActiveChar(activeChar === char.id ? null : char.id)
-              }
+              onClick={() => selectChar(char.id)}
               className={`text-left glass rounded-2xl overflow-hidden transition-all duration-500 group ${
                 activeChar === char.id
                   ? "border-flame-500/30 bg-bunker-900/80 ring-1 ring-flame-500/20"
@@ -139,7 +149,7 @@ export default function CharactersPage() {
                     src={char.image}
                     alt={char.name}
                     fill
-                    className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                    className="object-cover object-[center_15%] group-hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 ) : (
@@ -150,7 +160,7 @@ export default function CharactersPage() {
                   </div>
                 )}
                 {/* Gradient overlay at bottom */}
-                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-bunker-950 via-bunker-950/80 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bunker-950 via-bunker-950/90 to-transparent" />
                 {/* Name over image */}
                 <div className="absolute bottom-0 left-0 right-0 p-5">
                   <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-100 group-hover:text-flame-400 transition-colors">

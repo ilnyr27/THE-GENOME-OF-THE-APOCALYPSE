@@ -13,6 +13,11 @@ export default function Book4ReaderPage() {
 
   const chapter = book4Chapters[currentChapter];
 
+  const goToChapter = (index: number) => {
+    setCurrentChapter(index);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div className="pt-16 min-h-screen">
       {/* Top bar */}
@@ -65,7 +70,7 @@ export default function Book4ReaderPage() {
                 {book4Chapters.map((ch, i) => (
                   <button
                     key={ch.id}
-                    onClick={() => { setCurrentChapter(i); setSidebarOpen(false); }}
+                    onClick={() => { goToChapter(i); setSidebarOpen(false); }}
                     className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
                       i === currentChapter
                         ? "bg-flame-600/20 text-flame-400"
@@ -87,7 +92,7 @@ export default function Book4ReaderPage() {
             {book4Chapters.map((ch, i) => (
               <button
                 key={ch.id}
-                onClick={() => setCurrentChapter(i)}
+                onClick={() => goToChapter(i)}
                 className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
                   i === currentChapter
                     ? "bg-flame-600/20 text-flame-400"
@@ -134,7 +139,7 @@ export default function Book4ReaderPage() {
             {/* Navigation */}
             <div className="flex items-center justify-between mt-16 pt-8 border-t border-bunker-800">
               <button
-                onClick={() => setCurrentChapter(Math.max(0, currentChapter - 1))}
+                onClick={() => goToChapter(Math.max(0, currentChapter - 1))}
                 disabled={currentChapter === 0}
                 className="px-5 py-2.5 rounded-lg border border-bunker-700 text-ash-400 text-sm hover:border-flame-600/50 hover:text-flame-400 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               >
@@ -143,7 +148,7 @@ export default function Book4ReaderPage() {
 
               {currentChapter < book4Chapters.length - 1 ? (
                 <button
-                  onClick={() => setCurrentChapter(currentChapter + 1)}
+                  onClick={() => goToChapter(currentChapter + 1)}
                   className="px-5 py-2.5 rounded-lg bg-flame-600 text-white text-sm hover:bg-flame-500 transition-all"
                 >
                   Далее &rarr;

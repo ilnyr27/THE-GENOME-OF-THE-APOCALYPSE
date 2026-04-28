@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -19,7 +20,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-flame-500 to-flame-700 group-hover:shadow-[0_0_20px_rgba(255,122,17,0.4)] transition-shadow" />
+            <Image src="/logo.png" alt="Логотип" width={32} height={32} className="group-hover:drop-shadow-[0_0_8px_rgba(255,122,17,0.5)] transition-all" />
             <span className="font-[family-name:var(--font-display)] text-lg text-ash-100 tracking-wide">
               Геном Апокалипсиса
             </span>

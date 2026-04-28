@@ -27,6 +27,7 @@ export const metadata: Metadata = {
     title: "Геном Апокалипсиса",
     description: "Важно не кем ты стал, а каким человеком ты был на пути.",
     type: "website",
+    images: ["/world/banner.png"],
   },
 };
 

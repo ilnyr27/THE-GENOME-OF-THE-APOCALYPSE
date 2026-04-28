@@ -45,19 +45,24 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile toggle */}
+          {/* Mobile toggle — spinning logo */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-ash-400"
+            className="md:hidden p-1"
             aria-label="Меню"
           >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              {isOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
+            <motion.div
+              animate={{ rotate: isOpen ? 360 : 0 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+            >
+              <Image
+                src="/logo.png"
+                alt="Меню"
+                width={36}
+                height={36}
+                className={`transition-all duration-300 ${isOpen ? "drop-shadow-[0_0_8px_rgba(255,122,17,0.6)]" : ""}`}
+              />
+            </motion.div>
           </button>
         </div>
       </div>

@@ -87,7 +87,7 @@ export default function Book2ReaderPage() {
 
         {/* Desktop sidebar */}
         <div className="hidden md:block w-64 shrink-0 pt-28">
-          <div className="fixed w-64 p-4 space-y-1 max-h-[calc(100vh-7rem)] overflow-y-auto">
+          <div className="fixed w-64 top-28 bottom-0 overflow-y-auto p-4 space-y-1">
             <p className="text-xs text-ash-600 uppercase tracking-wider mb-3">Оглавление</p>
             {book2Chapters.map((ch, i) => (
               <button

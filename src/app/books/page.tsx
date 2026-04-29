@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { books } from "@/lib/data";
 import { getSavedPosition } from "@/hooks/useReadingPosition";
@@ -101,10 +102,14 @@ export default function BooksPage() {
             >
               <div className="glass rounded-2xl p-8 hover:border-flame-500/15 transition-all duration-500">
                 <div className="flex items-start gap-6">
-                  <div className="shrink-0 w-16 h-20 rounded-lg bg-gradient-to-b from-flame-600/20 to-flame-900/20 border border-flame-600/20 flex items-center justify-center">
-                    <span className="font-[family-name:var(--font-display)] text-2xl text-flame-500/60">
-                      {book.id}
-                    </span>
+                  <div className="shrink-0 w-24 sm:w-32 rounded-lg overflow-hidden shadow-lg">
+                    <Image
+                      src={book.cover}
+                      alt={book.title}
+                      width={200}
+                      height={300}
+                      className="w-full h-auto"
+                    />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">

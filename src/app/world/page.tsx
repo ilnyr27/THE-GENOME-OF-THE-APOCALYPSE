@@ -72,39 +72,40 @@ export default function WorldPage() {
         {/* Cards grid — normal layout */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {worldSections.map((section, i) => (
-            <motion.div
-              key={section.id}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: i * 0.08 }}
-            >
-              <button
-                onClick={() => setActiveIndex(i)}
-                className="w-full text-left glass rounded-2xl overflow-hidden transition-all duration-500 group hover:border-flame-500/15"
+            <div key={section.id} className={i % 3 === 1 ? "lg:translate-y-16" : ""}>
+              <motion.div
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.08 }}
               >
-                {section.image && (
-                  <div className="relative w-full overflow-hidden">
-                    <Image
-                      src={section.image}
-                      alt={section.title}
-                      width={800}
-                      height={500}
-                      className="w-full h-auto group-hover:scale-105 transition-transform duration-700"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
+                <button
+                  onClick={() => setActiveIndex(i)}
+                  className="w-full text-left glass rounded-2xl overflow-hidden transition-all duration-500 group hover:border-flame-500/15"
+                >
+                  {section.image && (
+                    <div className="relative w-full overflow-hidden">
+                      <Image
+                        src={section.image}
+                        alt={section.title}
+                        width={800}
+                        height={500}
+                        className="w-full h-auto group-hover:scale-105 transition-transform duration-700"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                  )}
+                  <div className="p-6">
+                    <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-200 mb-2 group-hover:text-flame-400 transition-colors">
+                      {section.title}
+                    </h3>
+                    <p className="text-sm text-ash-500 leading-relaxed line-clamp-2">
+                      {section.description}
+                    </p>
                   </div>
-                )}
-                <div className="p-6">
-                  <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-200 mb-2 group-hover:text-flame-400 transition-colors">
-                    {section.title}
-                  </h3>
-                  <p className="text-sm text-ash-500 leading-relaxed line-clamp-2">
-                    {section.description}
-                  </p>
-                </div>
-              </button>
-            </motion.div>
+                </button>
+              </motion.div>
+            </div>
           ))}
         </div>
 

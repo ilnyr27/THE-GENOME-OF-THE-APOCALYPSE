@@ -42,9 +42,6 @@ export default function WorldPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-bunker-950 via-bunker-950/40 to-bunker-950/30" />
         <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 max-w-6xl mx-auto">
-          <h1 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl text-ash-100 text-glow mb-3">
-            Мир Генома Апокалипсиса
-          </h1>
           <p className="text-ash-400 text-lg max-w-2xl">
             300 лет после катастрофы. 50 бункеров. Мир, который не умер — изменился.
           </p>

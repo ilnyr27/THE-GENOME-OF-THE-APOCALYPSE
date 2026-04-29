@@ -6,17 +6,15 @@ import { motion, AnimatePresence } from "motion/react";
 import { book2Chapters } from "@/lib/data";
 import { ReadingTracker } from "@/components/ReadingTracker";
 import { LiveReaders } from "@/components/LiveReaders";
+import { useReadingPosition } from "@/hooks/useReadingPosition";
 
 export default function Book2ReaderPage() {
-  const [currentChapter, setCurrentChapter] = useState(0);
+  const { currentChapter, goToChapter } = useReadingPosition(2, book2Chapters.length);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const chapter = book2Chapters[currentChapter];
+  if (currentChapter === null) return null;
 
-  const goToChapter = (index: number) => {
-    setCurrentChapter(index);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const chapter = book2Chapters[currentChapter];
 
   return (
     <div className="pt-16 min-h-screen">

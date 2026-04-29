@@ -57,35 +57,41 @@ export default function WorldPage() {
           {worldSections.map((section, i) => (
             <motion.div
               key={section.id}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: i * 0.08 }}
             >
               <button
                 onClick={() => setActiveSection(section.id)}
                 className="w-full text-left glass rounded-2xl overflow-hidden transition-all duration-500 group hover:border-flame-500/15"
               >
                 {section.image && (
-                  <div className="relative w-full aspect-[16/10] overflow-hidden">
+                  <div className="relative w-full overflow-hidden">
                     <Image
                       src={section.image}
                       alt={section.title}
-                      fill
-                      className="object-cover object-left group-hover:scale-105 transition-transform duration-700"
+                      width={800}
+                      height={500}
+                      className="w-full h-auto group-hover:scale-105 transition-transform duration-700"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
                 )}
-                <div className="p-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.08 + 0.2 }}
+                  className="p-6"
+                >
                   <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-200 mb-2 group-hover:text-flame-400 transition-colors">
                     {section.title}
                   </h3>
                   <p className="text-sm text-ash-500 leading-relaxed line-clamp-2">
                     {section.description}
                   </p>
-                </div>
+                </motion.div>
               </button>
             </motion.div>
           ))}
@@ -115,10 +121,10 @@ export default function WorldPage() {
             ].map((item, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
                 className={`relative flex items-center mb-8 ${
                   item.side === "right" ? "sm:flex-row-reverse" : ""
                 }`}
@@ -165,12 +171,13 @@ export default function WorldPage() {
 
               {/* Hero image */}
               {active.image && (
-                <div className="relative w-full h-[40vh] sm:h-[50vh]">
+                <div className="relative w-full">
                   <Image
                     src={active.image}
                     alt={active.title}
-                    fill
-                    className="object-cover object-left"
+                    width={1600}
+                    height={900}
+                    className="w-full h-auto"
                     sizes="100vw"
                     priority
                   />

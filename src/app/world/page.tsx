@@ -1,20 +1,31 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { worldSections } from "@/lib/data";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 },
+// Chaotic card sizes — some tall, some wide, some small
+const cardSpans: Record<string, string> = {
+  wasteland: "sm:col-span-2 sm:row-span-2",
+  bunkers: "sm:row-span-2",
+  mutations: "sm:col-span-2",
+  history: "",
+  factions: "sm:row-span-2",
+  "red-zone": "sm:col-span-2",
+  "bunker-27": "",
+  "bunker-12": "",
+  "seraphima-commune": "sm:col-span-2",
+  flora: "",
+  "metallic-trees": "",
 };
 
+// Slight random rotations for chaotic feel
+const rotations = [-1.5, 0.8, -0.5, 1.2, -0.8, 0.5, -1, 0.7, -0.3, 1, -0.6];
+
 export default function WorldPage() {
-  const [activeSection, setActiveSection] = useState<string | null>(null);
-  const active = activeSection
-    ? worldSections.find((s) => s.id === activeSection)
-    : null;
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const active = activeIndex !== null ? worldSections[activeIndex] : null;
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -27,6 +38,33 @@ export default function WorldPage() {
       document.body.style.overflow = "";
     };
   }, [active]);
+
+  // Keyboard & swipe navigation
+  const goNext = useCallback(() => {
+    setActiveIndex((prev) =>
+      prev !== null && prev < worldSections.length - 1 ? prev + 1 : prev
+    );
+  }, []);
+
+  const goPrev = useCallback(() => {
+    setActiveIndex((prev) =>
+      prev !== null && prev > 0 ? prev - 1 : prev
+    );
+  }, []);
+
+  useEffect(() => {
+    if (activeIndex === null) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") goNext();
+      else if (e.key === "ArrowLeft") goPrev();
+      else if (e.key === "Escape") setActiveIndex(null);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [activeIndex, goNext, goPrev]);
+
+  // Touch swipe
+  const [touchStart, setTouchStart] = useState<number | null>(null);
 
   return (
     <div className="pb-16">
@@ -49,19 +87,21 @@ export default function WorldPage() {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 mt-12">
-        {/* Cards grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Chaotic masonry grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 auto-rows-[minmax(180px,auto)]">
           {worldSections.map((section, i) => (
             <motion.div
               key={section.id}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: i * 0.08 }}
+              className={cardSpans[section.id] || ""}
+              initial={{ opacity: 0, y: 40, rotate: rotations[i % rotations.length] * 2 }}
+              whileInView={{ opacity: 1, y: 0, rotate: rotations[i % rotations.length] }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.6, delay: i * 0.06 }}
+              whileHover={{ rotate: 0, scale: 1.03, zIndex: 10 }}
             >
               <button
-                onClick={() => setActiveSection(section.id)}
-                className="w-full text-left glass rounded-2xl overflow-hidden transition-all duration-500 group hover:border-flame-500/15"
+                onClick={() => setActiveIndex(i)}
+                className="w-full h-full text-left glass rounded-2xl overflow-hidden transition-all duration-500 group hover:border-flame-500/20 hover:shadow-lg hover:shadow-flame-600/5"
               >
                 {section.image && (
                   <div className="relative w-full overflow-hidden">
@@ -71,24 +111,18 @@ export default function WorldPage() {
                       width={800}
                       height={500}
                       className="w-full h-auto group-hover:scale-105 transition-transform duration-700"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
                   </div>
                 )}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.08 + 0.2 }}
-                  className="p-6"
-                >
-                  <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-200 mb-2 group-hover:text-flame-400 transition-colors">
+                <div className="p-5">
+                  <h3 className="font-[family-name:var(--font-display)] text-lg text-ash-200 mb-1.5 group-hover:text-flame-400 transition-colors">
                     {section.title}
                   </h3>
                   <p className="text-sm text-ash-500 leading-relaxed line-clamp-2">
                     {section.description}
                   </p>
-                </motion.div>
+                </div>
               </button>
             </motion.div>
           ))}
@@ -96,10 +130,9 @@ export default function WorldPage() {
 
         {/* Timeline */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          variants={fadeUp}
           transition={{ duration: 0.6 }}
           className="mt-24"
         >
@@ -137,80 +170,120 @@ export default function WorldPage() {
         </motion.div>
       </div>
 
-      {/* Fullscreen modal */}
+      {/* Fullscreen modal with swipe */}
       <AnimatePresence>
-        {active && (
+        {active && activeIndex !== null && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-50 bg-bunker-950/95 overflow-y-auto"
-            onClick={() => setActiveSection(null)}
+            onClick={() => setActiveIndex(null)}
+            onTouchStart={(e) => setTouchStart(e.touches[0].clientX)}
+            onTouchEnd={(e) => {
+              if (touchStart === null) return;
+              const diff = touchStart - e.changedTouches[0].clientX;
+              if (Math.abs(diff) > 60) {
+                if (diff > 0) goNext();
+                else goPrev();
+              }
+              setTouchStart(null);
+            }}
           >
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 40 }}
-              transition={{ duration: 0.4 }}
-              className="min-h-screen"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Close button */}
-              <button
-                onClick={() => setActiveSection(null)}
-                className="fixed top-6 right-6 z-60 w-10 h-10 rounded-full glass border border-bunker-700 flex items-center justify-center text-ash-400 hover:text-flame-400 hover:border-flame-500/50 transition-all"
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, x: 80 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -80 }}
+                transition={{ duration: 0.3 }}
+                className="min-h-screen"
+                onClick={(e) => e.stopPropagation()}
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+                {/* Close button */}
+                <button
+                  onClick={() => setActiveIndex(null)}
+                  className="fixed top-6 right-6 z-60 w-10 h-10 rounded-full glass border border-bunker-700 flex items-center justify-center text-ash-400 hover:text-flame-400 hover:border-flame-500/50 transition-all"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
 
-              {/* Hero image */}
-              {active.image && (
-                <div className="relative w-full">
-                  <Image
-                    src={active.image}
-                    alt={active.title}
-                    width={1600}
-                    height={900}
-                    className="w-full h-auto"
-                    sizes="100vw"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-bunker-950 via-bunker-950/30 to-transparent" />
-                </div>
-              )}
+                {/* Navigation arrows */}
+                {activeIndex > 0 && (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); goPrev(); }}
+                    className="fixed left-4 top-1/2 -translate-y-1/2 z-60 w-12 h-12 rounded-full glass border border-bunker-700 flex items-center justify-center text-ash-400 hover:text-flame-400 hover:border-flame-500/50 transition-all"
+                  >
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                )}
+                {activeIndex < worldSections.length - 1 && (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); goNext(); }}
+                    className="fixed right-4 top-1/2 -translate-y-1/2 z-60 w-12 h-12 rounded-full glass border border-bunker-700 flex items-center justify-center text-ash-400 hover:text-flame-400 hover:border-flame-500/50 transition-all"
+                  >
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                )}
 
-              {/* Content */}
-              <div className="max-w-3xl mx-auto px-6 sm:px-10 -mt-20 relative z-10 pb-16">
-                <h2 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl text-ash-100 text-glow mb-6">
-                  {active.title}
-                </h2>
-                <p className="text-ash-400 text-lg leading-relaxed mb-10">
-                  {active.description}
-                </p>
-                <div className="glass rounded-2xl p-8">
-                  <h3 className="text-xs uppercase tracking-wider text-ash-600 mb-6">
-                    Подробности
-                  </h3>
-                  <ul className="space-y-4">
-                    {active.details.map((detail, i) => (
-                      <motion.li
-                        key={i}
-                        initial={{ opacity: 0, x: -15 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className="flex items-start gap-4 text-ash-400"
-                      >
-                        <span className="text-flame-500 mt-1">&#x2022;</span>
-                        <span className="leading-relaxed text-lg">{detail}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
+                {/* Counter */}
+                <div className="fixed top-6 left-6 z-60 text-ash-600 text-sm">
+                  {activeIndex + 1} / {worldSections.length}
                 </div>
-              </div>
-            </motion.div>
+
+                {/* Hero image */}
+                {active.image && (
+                  <div className="relative w-full">
+                    <Image
+                      src={active.image}
+                      alt={active.title}
+                      width={1600}
+                      height={900}
+                      className="w-full h-auto"
+                      sizes="100vw"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-bunker-950 via-bunker-950/30 to-transparent" />
+                  </div>
+                )}
+
+                {/* Content */}
+                <div className="max-w-3xl mx-auto px-6 sm:px-10 -mt-20 relative z-10 pb-16">
+                  <h2 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl text-ash-100 text-glow mb-6">
+                    {active.title}
+                  </h2>
+                  <p className="text-ash-400 text-lg leading-relaxed mb-10">
+                    {active.description}
+                  </p>
+                  <div className="glass rounded-2xl p-8">
+                    <h3 className="text-xs uppercase tracking-wider text-ash-600 mb-6">
+                      Подробности
+                    </h3>
+                    <ul className="space-y-4">
+                      {active.details.map((detail, i) => (
+                        <motion.li
+                          key={i}
+                          initial={{ opacity: 0, x: -15 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.1 }}
+                          className="flex items-start gap-4 text-ash-400"
+                        >
+                          <span className="text-flame-500 mt-1">&#x2022;</span>
+                          <span className="leading-relaxed text-lg">{detail}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>

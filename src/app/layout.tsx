@@ -37,7 +37,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="ru" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light-theme')}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="min-h-screen antialiased">
         <Navbar />
         <AuthProvider>

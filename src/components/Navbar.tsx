@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
   { href: "/", label: "Главная" },
@@ -43,6 +44,7 @@ export function Navbar() {
             >
               Читать бесплатно
             </Link>
+            <ThemeToggle />
           </div>
 
           {/* Mobile toggle — spinning logo */}
@@ -95,6 +97,9 @@ export function Navbar() {
               >
                 Читать бесплатно
               </Link>
+              <div className="flex justify-center pt-2">
+                <ThemeToggle />
+              </div>
             </div>
           </motion.div>
         )}

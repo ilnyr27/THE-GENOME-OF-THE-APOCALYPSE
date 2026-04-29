@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme inline {
+@theme {
   --color-background: #0a0a0a;
   --color-foreground: #e0d5c5;
 
@@ -88,19 +88,19 @@ body {
 /* ======== LIGHT THEME ======== */
 .light-theme {
   --background: #FDF6E3;
-  --foreground: #3D3028;
+  --foreground: #1a1410;
 
-  --color-ash-50: #1a1410;
-  --color-ash-100: #3d3028;
-  --color-ash-200: #604b3a;
-  --color-ash-300: #735a42;
-  --color-ash-400: #8a6e4e;
-  --color-ash-500: #9d825e;
-  --color-ash-600: #b19a78;
-  --color-ash-700: #c9b89e;
-  --color-ash-800: #e0d5c5;
-  --color-ash-900: #f0ebe3;
-  --color-ash-950: #faf8f5;
+  --color-ash-50: #050403;
+  --color-ash-100: #110e0b;
+  --color-ash-200: #1a1410;
+  --color-ash-300: #2a2018;
+  --color-ash-400: #3d3028;
+  --color-ash-500: #524233;
+  --color-ash-600: #6b5744;
+  --color-ash-700: #8a6e4e;
+  --color-ash-800: #c9b89e;
+  --color-ash-900: #e0d5c5;
+  --color-ash-950: #f0ebe3;
 
   --color-flame-50: #451506;
   --color-flame-100: #7f3010;

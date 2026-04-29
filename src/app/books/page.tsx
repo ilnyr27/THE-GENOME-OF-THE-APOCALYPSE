@@ -100,9 +100,9 @@ export default function BooksPage() {
               variants={fadeUp}
               transition={{ duration: 0.5, delay: i * 0.05 }}
             >
-              <div className="glass rounded-2xl p-8 hover:border-flame-500/15 transition-all duration-500">
-                <div className="flex items-start gap-6">
-                  <div className="shrink-0 w-24 sm:w-32 rounded-lg overflow-hidden shadow-lg">
+              <div className="glass rounded-2xl p-5 sm:p-8 hover:border-flame-500/15 transition-all duration-500 overflow-hidden">
+                <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+                  <div className="shrink-0 w-full sm:w-32 rounded-lg overflow-hidden shadow-lg">
                     <Image
                       src={book.cover}
                       alt={book.title}
@@ -111,9 +111,9 @@ export default function BooksPage() {
                       className="w-full h-auto"
                     />
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h2 className="font-[family-name:var(--font-display)] text-2xl text-ash-200">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
+                      <h2 className="font-[family-name:var(--font-display)] text-xl sm:text-2xl text-ash-200">
                         {book.title}
                       </h2>
                       {book.free ? (
@@ -129,7 +129,7 @@ export default function BooksPage() {
                     <p className="text-flame-500/60 text-sm mb-3">
                       {book.subtitle} &middot; {book.pages} стр.
                     </p>
-                    <p className="text-ash-400 leading-relaxed mb-4">
+                    <p className="text-ash-400 text-sm sm:text-base leading-relaxed mb-4">
                       {book.description}
                     </p>
                     <p className="text-sm italic text-ash-600 mb-4">

@@ -5,24 +5,6 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { worldSections } from "@/lib/data";
 
-// Chaotic card sizes — some tall, some wide, some small
-const cardSpans: Record<string, string> = {
-  wasteland: "sm:col-span-2 sm:row-span-2",
-  bunkers: "sm:row-span-2",
-  mutations: "sm:col-span-2",
-  history: "",
-  factions: "sm:row-span-2",
-  "red-zone": "sm:col-span-2",
-  "bunker-27": "",
-  "bunker-12": "",
-  "seraphima-commune": "sm:col-span-2",
-  flora: "",
-  "metallic-trees": "",
-};
-
-// Slight random rotations for chaotic feel
-const rotations = [-1.5, 0.8, -0.5, 1.2, -0.8, 0.5, -1, 0.7, -0.3, 1, -0.6];
-
 export default function WorldPage() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const active = activeIndex !== null ? worldSections[activeIndex] : null;
@@ -87,21 +69,19 @@ export default function WorldPage() {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 mt-12">
-        {/* Chaotic masonry grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 auto-rows-[minmax(180px,auto)]">
+        {/* Cards grid — normal layout */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {worldSections.map((section, i) => (
             <motion.div
               key={section.id}
-              className={cardSpans[section.id] || ""}
-              initial={{ opacity: 0, y: 40, rotate: rotations[i % rotations.length] * 2 }}
-              whileInView={{ opacity: 1, y: 0, rotate: rotations[i % rotations.length] }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.6, delay: i * 0.06 }}
-              whileHover={{ rotate: 0, scale: 1.03, zIndex: 10 }}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: i * 0.08 }}
             >
               <button
                 onClick={() => setActiveIndex(i)}
-                className="w-full h-full text-left glass rounded-2xl overflow-hidden transition-all duration-500 group hover:border-flame-500/20 hover:shadow-lg hover:shadow-flame-600/5"
+                className="w-full text-left glass rounded-2xl overflow-hidden transition-all duration-500 group hover:border-flame-500/15"
               >
                 {section.image && (
                   <div className="relative w-full overflow-hidden">
@@ -111,12 +91,12 @@ export default function WorldPage() {
                       width={800}
                       height={500}
                       className="w-full h-auto group-hover:scale-105 transition-transform duration-700"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
                 )}
-                <div className="p-5">
-                  <h3 className="font-[family-name:var(--font-display)] text-lg text-ash-200 mb-1.5 group-hover:text-flame-400 transition-colors">
+                <div className="p-6">
+                  <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-200 mb-2 group-hover:text-flame-400 transition-colors">
                     {section.title}
                   </h3>
                   <p className="text-sm text-ash-500 leading-relaxed line-clamp-2">

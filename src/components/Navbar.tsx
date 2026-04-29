@@ -47,25 +47,28 @@ export function Navbar() {
             <ThemeToggle />
           </div>
 
-          {/* Mobile toggle — spinning logo */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-1"
-            aria-label="Меню"
-          >
-            <motion.div
-              animate={{ rotate: isOpen ? 360 : 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+          {/* Mobile: theme toggle + menu button */}
+          <div className="md:hidden flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-1"
+              aria-label="Меню"
             >
-              <Image
-                src="/logo.png"
-                alt="Меню"
-                width={36}
-                height={36}
-                className={`transition-all duration-300 ${isOpen ? "drop-shadow-[0_0_8px_rgba(255,122,17,0.6)]" : ""}`}
-              />
-            </motion.div>
-          </button>
+              <motion.div
+                animate={{ rotate: isOpen ? 360 : 0 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              >
+                <Image
+                  src="/logo.png"
+                  alt="Меню"
+                  width={36}
+                  height={36}
+                  className={`transition-all duration-300 ${isOpen ? "drop-shadow-[0_0_8px_rgba(255,122,17,0.6)]" : ""}`}
+                />
+              </motion.div>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -97,9 +100,6 @@ export function Navbar() {
               >
                 Читать бесплатно
               </Link>
-              <div className="flex justify-center pt-2">
-                <ThemeToggle />
-              </div>
             </div>
           </motion.div>
         )}

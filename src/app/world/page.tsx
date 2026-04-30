@@ -72,7 +72,7 @@ export default function WorldPage() {
         {/* Cards grid — normal layout */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {worldSections.map((section, i) => (
-            <div key={section.id} className={i % 3 === 1 && i >= 3 ? "lg:translate-y-6" : ""}>
+            <div key={section.id} className={i % 3 === 1 ? "lg:translate-y-40" : ""}>
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}

@@ -69,42 +69,84 @@ export default function WorldPage() {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 mt-12">
-        {/* Cards grid — normal layout */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Cards — mobile/tablet: regular grid */}
+        <div className="grid sm:grid-cols-2 gap-6 lg:hidden">
           {worldSections.map((section, i) => (
-            <div key={section.id} className={i % 3 === 1 ? "lg:translate-y-1/2" : ""}>
-              <motion.div
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.08 }}
+            <motion.div
+              key={section.id}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: i * 0.08 }}
+            >
+              <button
+                onClick={() => setActiveIndex(i)}
+                className="w-full text-left glass rounded-2xl overflow-hidden transition-all duration-500 group hover:border-flame-500/15"
               >
-                <button
-                  onClick={() => setActiveIndex(i)}
-                  className="w-full text-left glass rounded-2xl overflow-hidden transition-all duration-500 group hover:border-flame-500/15"
-                >
-                  {section.image && (
-                    <div className="relative w-full overflow-hidden">
-                      <Image
-                        src={section.image}
-                        alt={section.title}
-                        width={800}
-                        height={500}
-                        className="w-full h-auto group-hover:scale-105 transition-transform duration-700"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                    </div>
-                  )}
-                  <div className="p-6">
-                    <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-200 mb-2 group-hover:text-flame-400 transition-colors">
-                      {section.title}
-                    </h3>
-                    <p className="text-sm text-ash-500 leading-relaxed line-clamp-2">
-                      {section.description}
-                    </p>
+                {section.image && (
+                  <div className="relative w-full overflow-hidden">
+                    <Image
+                      src={section.image}
+                      alt={section.title}
+                      width={800}
+                      height={500}
+                      className="w-full h-auto group-hover:scale-105 transition-transform duration-700"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
                   </div>
-                </button>
-              </motion.div>
+                )}
+                <div className="p-6">
+                  <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-200 mb-2 group-hover:text-flame-400 transition-colors">
+                    {section.title}
+                  </h3>
+                  <p className="text-sm text-ash-500 leading-relaxed line-clamp-2">
+                    {section.description}
+                  </p>
+                </div>
+              </button>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Cards — desktop: 3 independent columns, center vertically centered */}
+        <div className="hidden lg:flex gap-6">
+          {[[0, 3, 6, 9], [1, 4, 7], [2, 5, 8, 10]].map((indices, col) => (
+            <div key={col} className={`flex-1 flex flex-col gap-6 ${col === 1 ? "justify-center" : ""}`}>
+              {indices.map((idx, j) => (
+                <motion.div
+                  key={worldSections[idx].id}
+                  initial={{ opacity: 0, y: 60 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: j * 0.1 + col * 0.05 }}
+                >
+                  <button
+                    onClick={() => setActiveIndex(idx)}
+                    className="w-full text-left glass rounded-2xl overflow-hidden transition-all duration-500 group hover:border-flame-500/15"
+                  >
+                    {worldSections[idx].image && (
+                      <div className="relative w-full overflow-hidden">
+                        <Image
+                          src={worldSections[idx].image}
+                          alt={worldSections[idx].title}
+                          width={800}
+                          height={500}
+                          className="w-full h-auto group-hover:scale-105 transition-transform duration-700"
+                          sizes="33vw"
+                        />
+                      </div>
+                    )}
+                    <div className="p-6">
+                      <h3 className="font-[family-name:var(--font-display)] text-xl text-ash-200 mb-2 group-hover:text-flame-400 transition-colors">
+                        {worldSections[idx].title}
+                      </h3>
+                      <p className="text-sm text-ash-500 leading-relaxed line-clamp-2">
+                        {worldSections[idx].description}
+                      </p>
+                    </div>
+                  </button>
+                </motion.div>
+              ))}
             </div>
           ))}
         </div>

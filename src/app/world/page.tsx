@@ -63,7 +63,7 @@ export default function WorldPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-bunker-950 via-bunker-950/40 to-bunker-950/30" />
         <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 max-w-6xl mx-auto">
           <p className="text-ash-400 text-lg max-w-2xl">
-            300 лет после катастрофы. 50 бункеров. Мир, который не умер — изменился.
+            200 лет после катастрофы. 50 бункеров. Мир, который не умер — изменился.
           </p>
         </div>
       </div>
@@ -168,9 +168,10 @@ export default function WorldPage() {
               { year: "2087", event: "Проект «Феникс» — начало строительства бункеров", side: "left" },
               { year: "2091", event: "Вакцина «Протей» — тайные генетические эксперименты", side: "right" },
               { year: "2095", event: "День Пепла — конец старого мира", side: "left" },
-              { year: "2095-2395", event: "Эра Бункеров — 300 лет изоляции", side: "right" },
-              { year: "2410", event: "Альянс Бункеров — первая координация", side: "left" },
-              { year: "2440", event: "Начало событий серии", side: "right" },
+              { year: "2095-2295", event: "Эра Бункеров — 200 лет адаптации и расширения", side: "right" },
+              { year: "2195", event: "Проект «Протей» — генетические вакцины", side: "left" },
+              { year: "2250", event: "Альянс Бункеров — тоннельная сеть", side: "right" },
+              { year: "2295", event: "Начало событий серии", side: "left" },
             ].map((item, i) => (
               <motion.div
                 key={i}

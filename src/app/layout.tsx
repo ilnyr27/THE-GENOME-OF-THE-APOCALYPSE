@@ -20,8 +20,8 @@ export const metadata: Metadata = {
   description:
     "Серия из семи книг о братьях Ардине, Кейле и Айдене. История о людях, которые ищут правду, учатся доверять и выбирают мир.",
   icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
+    icon: "/icon-192.png",
+    apple: "/apple-touch-icon.png",
   },
   openGraph: {
     title: "Геном Апокалипсиса",
